@@ -4,3 +4,10 @@ site:
 
 navigation:
   search: true
+
+footer:
+  links:
+    - text: "GitHub"
+      url: "https://github.com/yourusername/DocForge"
+    - text: "License"
+      url: "/license.html"
