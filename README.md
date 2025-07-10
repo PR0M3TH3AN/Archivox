@@ -8,6 +8,18 @@ Built with Node.js (using libraries like Eleventy for templating, `marked` or `r
 
 This final spec incorporates core features, enhancements for usability and performance, and explicit user instructions. It's designed to be implemented as an open-source GitHub repo with a CLI starter kit (e.g., `npx create-docforge my-site`).
 
+## Quick Start
+
+```bash
+# install dependencies and start the dev server
+npm install
+npm run dev
+
+# build the static site
+npm run build
+```
+
+
 ## Key Features
 
 - **Markdown-Driven Content and Navigation**:
@@ -155,6 +167,10 @@ To make DocForge truly user-friendly, include these instructions in the starter 
 - **Nesting Limits**: Keep to 3-4 levels max for usability; deeper may collapse in UI.
 - **Multi-Version**: Prefix folders like `content/v1/`, `content/v2/`; config enables switcher.
 - **Multi-Language (Optional)**: Use `content/en/`, `content/fr/` if `features.i18n: true`; add lang switcher.
+
+### Configuring Versions and Languages
+- Add available versions under `navigation.versions` in `config.yaml` and create matching folders (e.g., `content/v1/`, `content/v2/`).
+- Enable multiple languages by setting `features.i18n: true` and using subfolders such as `content/en/` or `content/fr/`.
 
 ### Formatting Markdown Content
 - **Basics**: Use standard Markdown:
