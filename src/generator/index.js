@@ -8,6 +8,12 @@ const { lexer } = marked;
 const loadConfig = require('../config/loadConfig');
 const loadPlugins = require('../config/loadPlugins');
 
+function formatName(name) {
+  return name
+    .replace(/^\d+[-_]?/, '')
+    .replace(/\.md$/, '');
+}
+
 async function readDirRecursive(dir) {
   const entries = await fs.promises.readdir(dir, { withFileTypes: true });
   const files = [];
@@ -64,12 +70,33 @@ function buildNav(pages) {
     }
   }
 
-  function sort(node) {
-    if (!node.children) return;
-    node.children.sort((a, b) => (a.order || 0) - (b.order || 0));
-    node.children.forEach(sort);
+  function finalize(node, isRoot = false) {
+    if (node.page && node.page.title) {
+      node.displayName = node.page.title;
+    } else if (node.name) {
+      node.displayName = formatName(node.name);
+    }
+    if (node.children) {
+      node.children.forEach(c => finalize(c));
+      node.children.sort((a, b) => {
+        const orderDiff = (a.order || 0) - (b.order || 0);
+        if (orderDiff !== 0) return orderDiff;
+        return (a.displayName || '').localeCompare(b.displayName || '');
+      });
+      node.isSection = node.children.length > 0;
+    } else {
+      node.isSection = false;
+    }
+    if (isRoot && node.children) {
+      const idx = node.children.findIndex(c => c.name === 'index.md');
+      if (idx > 0) {
+        const [first] = node.children.splice(idx, 1);
+        node.children.unshift(first);
+      }
+    }
   }
-  sort(tree);
+
+  finalize(tree, true);
   return tree.children || [];
 }
 
