@@ -1,3 +1,3 @@
 # Getting Started
 
-This section helps you begin with DocForge.
+This section helps you begin with Archivox.

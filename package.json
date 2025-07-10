@@ -1,7 +1,7 @@
 {
-  "name": "docforge",
+  "name": "archivox",
   "version": "1.0.0",
-  "description": "DocForge static site generator",
+  "description": "Archivox static site generator",
   "scripts": {
     "dev": "eleventy --serve",
     "build": "node src/generator/index.js",
@@ -20,6 +20,6 @@
   },
   "license": "MIT",
   "bin": {
-    "create-docforge": "./bin/create-docforge.js"
+    "create-archivox": "./bin/create-archivox.js"
   }
 }
