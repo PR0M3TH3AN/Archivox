@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const themeToggle = document.getElementById('theme-toggle');
   const searchInput = document.getElementById('search-input');
   const searchResults = document.getElementById('search-results');
+  const sidebar = document.getElementById('sidebar');
+  const sidebarOverlay = document.getElementById('sidebar-overlay');
   const root = document.documentElement;
 
   function setTheme(theme) {
@@ -18,6 +20,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   sidebarToggle?.addEventListener('click', () => {
     document.body.classList.toggle('sidebar-open');
+  });
+
+  sidebarOverlay?.addEventListener('click', () => {
+    document.body.classList.remove('sidebar-open');
   });
 
   themeToggle?.addEventListener('click', () => {
@@ -75,6 +81,15 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('click', e => {
     if (!searchResults.contains(e.target) && e.target !== searchInput) {
       searchResults.style.display = 'none';
+    }
+    if (
+      window.innerWidth <= 768 &&
+      document.body.classList.contains('sidebar-open') &&
+      sidebar &&
+      !sidebar.contains(e.target) &&
+      e.target !== sidebarToggle
+    ) {
+      document.body.classList.remove('sidebar-open');
     }
   });
 

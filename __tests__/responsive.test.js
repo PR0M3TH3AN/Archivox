@@ -100,6 +100,19 @@ test('sidebar opens on small screens', async () => {
   expect(sidebarLeft).toBe('0px');
 });
 
+test('clicking outside closes sidebar on small screens', async () => {
+  const page = await browser.newPage();
+  await page.setViewport({ width: 500, height: 800 });
+  await page.goto(`http://localhost:${port}/`);
+  await page.waitForSelector('#sidebar-toggle');
+  await page.click('#sidebar-toggle');
+  await new Promise(r => setTimeout(r, 300));
+  await page.click('main');
+  await new Promise(r => setTimeout(r, 300));
+  const bodyClass = await page.evaluate(() => document.body.classList.contains('sidebar-open'));
+  expect(bodyClass).toBe(false);
+});
+
 test('sidebar toggles on large screens', async () => {
   const page = await browser.newPage();
   await page.setViewport({ width: 1024, height: 800 });
