@@ -14,6 +14,9 @@ body {
   background: var(--bg-color);
   color: var(--text-color);
   font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 .header {
   display: flex;
@@ -53,11 +56,12 @@ body {
 .logo { text-decoration: none; color: var(--text-color); font-weight: bold; }
 .sidebar-toggle,
 .theme-toggle { background: none; border: none; font-size: 1.2rem; margin-right: 1rem; cursor: pointer; }
-.container { display: flex; }
+.container { display: flex; flex: 1; }
 .sidebar {
   width: var(--sidebar-width);
   background: var(--sidebar-bg);
   padding: 1rem;
+  box-sizing: border-box;
 }
 .sidebar ul { list-style: none; padding: 0; margin: 0; }
 .sidebar li { margin: 0.25rem 0; }
@@ -65,9 +69,14 @@ body {
 .sidebar ul ul { padding-left: 1rem; margin-left: 0.5rem; border-left: 2px solid #ccc; }
 main {
   flex: 1;
-  padding: 1rem;
+  padding: 2rem;
 }
 .breadcrumbs a { color: var(--text-color); text-decoration: none; }
+.footer {
+  text-align: center;
+  padding: 1rem;
+  background: var(--sidebar-bg);
+}
 @media (max-width: 768px) {
   .sidebar {
     position: fixed;
