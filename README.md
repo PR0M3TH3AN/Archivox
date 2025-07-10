@@ -2,7 +2,7 @@
 
 Archivox is a lightweight static site generator aimed at producing documentation sites similar to "Read the Docs". Write your content in Markdown, run the generator, and deploy the static files anywhere.
 
-[![Build Status](https://github.com/yourusername/Archivox/actions/workflows/ci.yml/badge.svg)](https://github.com/yourusername/Archivox/actions/workflows/ci.yml)
+[![Build Status](https://github.com/PR0M3TH3AN/Archivox/actions/workflows/ci.yml/badge.svg)](https://github.com/PR0M3TH3AN/Archivox/actions/workflows/ci.yml)
 
 ## Features
 - Markdown based pages with automatic navigation
