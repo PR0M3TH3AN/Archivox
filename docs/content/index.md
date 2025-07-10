@@ -12,4 +12,4 @@ npm run build # generate the _site/ folder
 
 Archivox converts Markdown files inside a `content/` folder into a full documentation site with search, navigation, and responsive design.
 
-Check the **Getting Started** section to learn how to install and run Archivox locally.
+Check the **Getting Started** section to learn how to run Archivox locally and the **Project Integration** guide to drop Archivox into an existing codebase.
