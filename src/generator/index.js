@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const matter = require('gray-matter');
 const Eleventy = require('@11ty/eleventy');
+const loadConfig = require('../config/loadConfig');
 
 async function readDirRecursive(dir) {
   const entries = await fs.promises.readdir(dir, { withFileTypes: true });
@@ -50,7 +51,8 @@ function buildNav(pages) {
   return tree.children || [];
 }
 
-async function generate({ contentDir = 'content', outputDir = '_site' } = {}) {
+async function generate({ contentDir = 'content', outputDir = '_site', configPath } = {}) {
+  const config = loadConfig(configPath);
   if (!fs.existsSync(contentDir)) {
     console.error(`Content directory not found: ${contentDir}`);
     return;
@@ -82,6 +84,7 @@ async function generate({ contentDir = 'content', outputDir = '_site' } = {}) {
   const nav = buildNav(pages);
   await fs.promises.mkdir(outputDir, { recursive: true });
   await fs.promises.writeFile(path.join(outputDir, 'navigation.json'), JSON.stringify(nav, null, 2));
+  await fs.promises.writeFile(path.join(outputDir, 'config.json'), JSON.stringify(config, null, 2));
 
   const elev = new Eleventy(contentDir, outputDir);
   elev.setConfig({
@@ -93,6 +96,7 @@ async function generate({ contentDir = 'content', outputDir = '_site' } = {}) {
   });
   elev.configFunction = function(eleventyConfig) {
     eleventyConfig.addGlobalData('navigation', nav);
+    eleventyConfig.addGlobalData('config', config);
   };
   await elev.write();
 
