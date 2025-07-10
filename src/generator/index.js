@@ -26,10 +26,29 @@ function buildNav(pages) {
   const tree = {};
   for (const page of pages) {
     const rel = page.file.replace(/\\/g, '/');
+    if (rel === 'index.md') {
+      if (!tree.children) tree.children = [];
+      tree.children.push({
+        name: 'index.md',
+        children: [],
+        page: page.data,
+        path: `/${rel.replace(/\.md$/, '.html')}`,
+        order: page.data.order || 0
+      });
+      continue;
+    }
     const parts = rel.split('/');
     let node = tree;
     for (let i = 0; i < parts.length; i++) {
       const part = parts[i];
+      const isLast = i === parts.length - 1;
+      const isIndex = isLast && part === 'index.md';
+      if (isIndex) {
+        node.page = page.data;
+        node.path = `/${rel.replace(/\.md$/, '.html')}`;
+        node.order = page.data.order || 0;
+        break;
+      }
       if (!node.children) node.children = [];
       let child = node.children.find(c => c.name === part);
       if (!child) {
@@ -37,12 +56,12 @@ function buildNav(pages) {
         node.children.push(child);
       }
       node = child;
-      if (i === parts.length - 1) {
+      if (isLast) {
         node.page = page.data;
         node.path = `/${rel.replace(/\.md$/, '.html')}`;
+        node.order = page.data.order || 0;
       }
     }
-    node.order = page.data.order || 0;
   }
 
   function sort(node) {
@@ -92,8 +111,9 @@ async function generate({ contentDir = 'content', outputDir = '_site', configPat
       const mdObj = await runHook('onParseMarkdown', { file: rel, content: raw });
       if (mdObj && mdObj.content) raw = mdObj.content;
       const parsed = matter(raw);
-      const title = parsed.data.title || path.basename(rel, '.md');
       const tokens = lexer(parsed.content || '');
+      const firstHeading = tokens.find(t => t.type === 'heading');
+      const title = parsed.data.title || (firstHeading ? firstHeading.text : path.basename(rel, '.md'));
       const headings = tokens.filter(t => t.type === 'heading').map(t => t.text).join(' ');
       pages.push({ file: rel, data: { ...parsed.data, title } });
       searchDocs.push({ id: rel.replace(/\.md$/, '.html'), url: '/' + rel.replace(/\.md$/, '.html'), title, headings });
