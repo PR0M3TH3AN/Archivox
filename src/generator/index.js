@@ -179,7 +179,14 @@ async function generate({ contentDir = 'content', outputDir = '_site', configPat
     const raw = await fs.promises.readFile(srcPath, 'utf8');
     const { content, data } = matter(raw);
     const body = require('marked').parse(content);
-    let html = env.render('layout.njk', { title: data.title || page.data.title, content: body });
+
+    const pageContext = {
+      title: data.title || page.data.title,
+      content: body,
+      page: { url: '/' + page.file.replace(/\.md$/, '.html') }
+    };
+
+    let html = env.render('layout.njk', pageContext);
     const result = await runHook('onPageRendered', { file: page.file, html });
     if (result && result.html) html = result.html;
     await fs.promises.writeFile(outPath, html);
