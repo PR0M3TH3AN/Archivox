@@ -155,12 +155,18 @@ async function generate({ contentDir = 'content', outputDir = '_site', configPat
     await fs.promises.copyFile(srcPath, destPath);
   }
 
-  // Copy project level assets folder into output
-  const projectAssets = path.resolve(__dirname, '..', '..', 'assets');
-  if (fs.existsSync(projectAssets)) {
-    const dest = path.join(outputDir, 'assets');
-    await fs.promises.mkdir(dest, { recursive: true });
-    await fs.promises.cp(projectAssets, dest, { recursive: true });
+  // Copy the main assets directory (theme, js, etc.)
+  const mainAssetsSrc = path.resolve(
+    configPath ? path.dirname(configPath) : process.cwd(),
+    '..',
+    'assets'
+  );
+  const mainAssetsDest = path.join(outputDir, 'assets');
+
+  if (fs.existsSync(mainAssetsSrc)) {
+    console.log(`Copying main assets from ${mainAssetsSrc} to ${mainAssetsDest}`);
+    // Use fs.promises.cp for modern Node.js, it's like `cp -R`
+    await fs.promises.cp(mainAssetsSrc, mainAssetsDest, { recursive: true });
   }
 }
 
