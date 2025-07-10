@@ -219,7 +219,7 @@ To make DocForge truly user-friendly, include these instructions in the starter 
 ## Extensibility Roadmap
 
 - **Plugins**: JS files in `plugins/` with hooks (e.g., add shortcodes, post-build tasks).
-- **Themes**: Override CSS in `assets/custom.css`.
+- **Themes**: Customize variables in `assets/theme.css` or override styles in `assets/custom.css`. A built-in dark-mode toggle stores preference in local storage.
 - **Future**: PDF export plugin, AI-assisted search suggestions.
 - **Community**: MIT license; GitHub for issues.
 

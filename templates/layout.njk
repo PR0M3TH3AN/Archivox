@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="{{ config.theme.darkMode ? 'dark' : 'light' }}">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{ title or config.site.title }}</title>
+  <link rel="stylesheet" href="/assets/theme.css" />
+</head>
+<body>
+  {% include "partials/header.njk" %}
+  <div class="container">
+    {% include "partials/sidebar.njk" %}
+    <main id="content">
+      <nav id="breadcrumbs" class="breadcrumbs"></nav>
+      {{ content | safe }}
+    </main>
+  </div>
+  {% include "partials/footer.njk" %}
+  <script src="/assets/theme.js"></script>
+</body>
+</html>

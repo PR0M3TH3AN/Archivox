@@ -88,7 +88,11 @@ async function generate({ contentDir = 'content', outputDir = '_site', configPat
 
   const elev = new Eleventy(contentDir, outputDir);
   elev.setConfig({
-    dir: { input: contentDir, output: outputDir },
+    dir: {
+      input: contentDir,
+      output: outputDir,
+      includes: path.relative(contentDir, 'templates')
+    },
     templateFormats: ['md', 'njk'],
     markdownTemplateEngine: 'njk',
     htmlTemplateEngine: 'njk',
@@ -97,6 +101,8 @@ async function generate({ contentDir = 'content', outputDir = '_site', configPat
   elev.configFunction = function(eleventyConfig) {
     eleventyConfig.addGlobalData('navigation', nav);
     eleventyConfig.addGlobalData('config', config);
+    eleventyConfig.addGlobalData('layout', 'layout.njk');
+    eleventyConfig.addPassthroughCopy({ 'assets': 'assets' });
   };
   await elev.write();
 
