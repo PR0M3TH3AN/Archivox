@@ -6,6 +6,7 @@ const Eleventy = require('@11ty/eleventy');
 const lunr = require('lunr');
 const { lexer } = require('marked');
 const loadConfig = require('../config/loadConfig');
+const loadPlugins = require('../config/loadPlugins');
 
 async function readDirRecursive(dir) {
   const entries = await fs.promises.readdir(dir, { withFileTypes: true });
@@ -55,6 +56,17 @@ function buildNav(pages) {
 
 async function generate({ contentDir = 'content', outputDir = '_site', configPath } = {}) {
   const config = loadConfig(configPath);
+  const plugins = loadPlugins(config);
+
+  async function runHook(name, data) {
+    for (const plugin of plugins) {
+      if (typeof plugin[name] === 'function') {
+        const res = await plugin[name](data);
+        if (res !== undefined) data = res;
+      }
+    }
+    return data;
+  }
   if (!fs.existsSync(contentDir)) {
     console.error(`Content directory not found: ${contentDir}`);
     return;
@@ -76,7 +88,9 @@ async function generate({ contentDir = 'content', outputDir = '_site', configPat
           continue; // skip unchanged
         }
       }
-      const raw = await fs.promises.readFile(file, 'utf8');
+      let raw = await fs.promises.readFile(file, 'utf8');
+      const mdObj = await runHook('onParseMarkdown', { file: rel, content: raw });
+      if (mdObj && mdObj.content) raw = mdObj.content;
       const parsed = matter(raw);
       const title = parsed.data.title || path.basename(rel, '.md');
       const tokens = lexer(parsed.content || '');
@@ -123,6 +137,16 @@ async function generate({ contentDir = 'content', outputDir = '_site', configPat
     eleventyConfig.addPassthroughCopy({ 'assets': 'assets' });
   };
   await elev.write();
+
+  for (const page of pages) {
+    const outPath = path.join(outputDir, page.file.replace(/\.md$/, '.html'));
+    if (fs.existsSync(outPath)) {
+      let html = await fs.promises.readFile(outPath, 'utf8');
+      const result = await runHook('onPageRendered', { file: page.file, html });
+      if (result && result.html) html = result.html;
+      await fs.promises.writeFile(outPath, html);
+    }
+  }
 
   for (const asset of assets) {
     const srcPath = path.join(contentDir, asset);

@@ -126,6 +126,7 @@ features:
     provider: "plausible"
     id: "my-site.io"
 
+pluginsDir: "plugins"          # Folder for custom plugins
 plugins:
   - "analytics"                 # Load from plugins/
 ```
@@ -222,5 +223,44 @@ To make DocForge truly user-friendly, include these instructions in the starter 
 - **Themes**: Customize variables in `assets/theme.css` or override styles in `assets/custom.css`. A built-in dark-mode toggle stores preference in local storage.
 - **Future**: PDF export plugin, AI-assisted search suggestions.
 - **Community**: MIT license; GitHub for issues.
+
+## Creating Custom Plugins
+
+Plugins are plain Node.js modules placed in the folder defined by `pluginsDir`.
+Each module can export hook functions which DocForge calls during the build:
+
+```js
+module.exports = {
+  // Modify markdown before frontmatter is parsed
+  async onParseMarkdown({ file, content }) {
+    return { content };
+  },
+  // Modify the final HTML of each page
+  async onPageRendered({ file, html }) {
+    return { html };
+  }
+};
+```
+
+Example `plugins/analytics.js`:
+
+```js
+module.exports = {
+  onPageRendered: async ({ html, file }) => {
+    const snippet = `\n<script>console.log('Page viewed: ${file}')</script>`;
+    return { html: html.replace('</body>', `${snippet}</body>`) };
+  }
+};
+```
+
+Enable it in `config.yaml`:
+
+```yaml
+pluginsDir: "plugins"
+plugins:
+  - "analytics"
+```
+
+Running `npm run build` will load the plugin and execute its hooks.
 
 This spec is complete and ready for implementation. Prototype core parsing first, then add features iteratively. Total est. dev time: 2-4 weeks for MVP.

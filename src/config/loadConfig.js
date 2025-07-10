@@ -44,6 +44,7 @@ function loadConfig(configPath = path.join(process.cwd(), 'config.yaml')) {
       darkMode: false
     },
     features: {},
+    pluginsDir: 'plugins',
     plugins: []
   };
 
