@@ -176,11 +176,9 @@ async function generate({ contentDir = 'content', outputDir = '_site', configPat
   }
 
   // Copy the main assets directory (theme, js, etc.)
-  const mainAssetsSrc = path.resolve(
-    configPath ? path.dirname(configPath) : process.cwd(),
-    '..',
-    'assets'
-  );
+  // Always resolve assets relative to the DocForge package so it works
+  // regardless of the current working directory or config location.
+  const mainAssetsSrc = path.resolve(__dirname, '../../assets');
   const mainAssetsDest = path.join(outputDir, 'assets');
 
   if (fs.existsSync(mainAssetsSrc)) {
