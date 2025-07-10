@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
   const sidebarToggle = document.getElementById('sidebar-toggle');
   const themeToggle = document.getElementById('theme-toggle');
+  const searchInput = document.getElementById('search-input');
+  const searchResults = document.getElementById('search-results');
   const root = document.documentElement;
 
   function setTheme(theme) {
@@ -17,6 +19,58 @@ document.addEventListener('DOMContentLoaded', () => {
   themeToggle?.addEventListener('click', () => {
     const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
     setTheme(next);
+  });
+
+  // search
+  let lunrIndex;
+  let docs = [];
+  async function loadIndex() {
+    if (lunrIndex) return;
+    try {
+      const res = await fetch('/search-index.json');
+      const data = await res.json();
+      lunrIndex = lunr.Index.load(data.index);
+      docs = data.docs;
+    } catch (e) {
+      console.error('Search index failed to load', e);
+    }
+  }
+
+  function highlight(text, q) {
+    const re = new RegExp('(' + q.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&') + ')', 'gi');
+    return text.replace(re, '<mark>$1</mark>');
+  }
+
+  searchInput?.addEventListener('input', async e => {
+    const q = e.target.value.trim();
+    await loadIndex();
+    if (!lunrIndex || !q) {
+      searchResults.style.display = 'none';
+      searchResults.innerHTML = '';
+      return;
+    }
+    const matches = lunrIndex.search(q);
+    searchResults.innerHTML = '';
+    if (!matches.length) {
+      searchResults.innerHTML = '<div class="no-results">No matches found</div>';
+      searchResults.style.display = 'block';
+      return;
+    }
+    matches.forEach(m => {
+      const doc = docs.find(d => d.id === m.ref);
+      if (!doc) return;
+      const a = document.createElement('a');
+      a.href = doc.url;
+      a.innerHTML = '<strong>' + highlight(doc.title, q) + '</strong><br><small>' + highlight(doc.headings, q) + '</small>';
+      searchResults.appendChild(a);
+    });
+    searchResults.style.display = 'block';
+  });
+
+  document.addEventListener('click', e => {
+    if (!searchResults.contains(e.target) && e.target !== searchInput) {
+      searchResults.style.display = 'none';
+    }
   });
 
   // breadcrumbs
