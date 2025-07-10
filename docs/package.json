@@ -1,0 +1,11 @@
+{
+  "name": "docs",
+  "private": true,
+  "scripts": {
+    "dev": "eleventy --serve",
+    "build": "node node_modules/docforge/src/generator/index.js"
+  },
+  "dependencies": {
+    "docforge": "^1.0.0"
+  }
+}
