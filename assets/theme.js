@@ -65,7 +65,8 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!doc) return;
       const a = document.createElement('a');
       a.href = doc.url;
-      a.innerHTML = '<strong>' + highlight(doc.title, q) + '</strong><br><small>' + highlight(doc.headings, q) + '</small>';
+      const snippet = doc.body ? doc.body.slice(0, 160) + (doc.body.length > 160 ? '...' : '') : '';
+      a.innerHTML = '<strong>' + highlight(doc.title, q) + '</strong><br><small>' + highlight(snippet, q) + '</small>';
       searchResults.appendChild(a);
     });
     searchResults.style.display = 'block';

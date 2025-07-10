@@ -70,6 +70,8 @@ test('markdown files render with layout and appear in nav/search', async () => {
   const docs = search.docs.map(d => d.id);
   expect(docs).toContain('index.html');
   expect(docs).toContain('guide/install.html');
+  const installDoc = search.docs.find(d => d.id === 'guide/install.html');
+  expect(installDoc.body).toContain('Steps');
 
   fs.rmSync(tmp, { recursive: true, force: true });
 });
