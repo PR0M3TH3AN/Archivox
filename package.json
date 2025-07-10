@@ -1,0 +1,16 @@
+{
+  "name": "docforge",
+  "version": "1.0.0",
+  "description": "DocForge static site generator",
+  "scripts": {
+    "dev": "eleventy --serve",
+    "build": "eleventy"
+  },
+  "dependencies": {
+    "@11ty/eleventy": "^2.0.1",
+    "gray-matter": "^4.0.3",
+    "marked": "^11.1.1",
+    "lunr": "^2.3.9"
+  },
+  "license": "MIT"
+}
