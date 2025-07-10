@@ -1,5 +1,7 @@
 # DocForge: Final Specification
 
+[![Build Status](https://github.com/yourusername/DocForge/actions/workflows/ci.yml/badge.svg)](https://github.com/yourusername/DocForge/actions/workflows/ci.yml)
+
 **Version:** 1.0  
 **Date:** July 10, 2025  
 **Overview:** DocForge is a modular, lightweight static site generator (SSG) for building "Read the Docs"-style documentation sites. It prioritizes user simplicity: content is driven entirely by Markdown files in a `content` folder, which automatically determines page structure, titles, and sidebar links. No manual HTML, link creation, or complex setups are needed. The site is mobile-friendly, SEO-optimized, and deployable to Netlify or similar hosts.
