@@ -230,7 +230,8 @@ To make DocForge truly user-friendly, include these instructions in the starter 
       command = "npm run build"
       publish = "_site"
     ```
-  - Git push triggers deploys; previews for PRs.
+  - Connect the repo to Netlify by selecting **New site from Git** in your Netlify dashboard and picking this repository. Netlify will read `netlify.toml` so no extra setup is required. Once linked, pushes to `main` automatically build and deploy the site and pull requests get preview URLs.
+  - Ensure the generated `_site/` folder is git-ignored (see `.gitignore`) so deployments always use a fresh build.
 - **Other Hosts**: Upload `_site/` to GitHub Pages, Vercel, etc.
 
 ## Extensibility Roadmap
