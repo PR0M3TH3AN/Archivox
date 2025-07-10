@@ -29,8 +29,8 @@ function main() {
   if (fs.existsSync(pkgPath)) {
     const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
     const version = require('../package.json').version;
-    if (pkg.dependencies && pkg.dependencies.docforge)
-      pkg.dependencies.docforge = `^${version}`;
+    if (pkg.dependencies && pkg.dependencies.archivox)
+      pkg.dependencies.archivox = `^${version}`;
     pkg.name = path.basename(targetDir);
     fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2));
   }
@@ -39,7 +39,7 @@ function main() {
     execSync('npm install', { cwd: targetDir, stdio: 'inherit' });
   }
 
-  console.log(`DocForge starter created at ${targetDir}`);
+  console.log(`Archivox starter created at ${targetDir}`);
 }
 
 main();

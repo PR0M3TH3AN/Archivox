@@ -30,7 +30,7 @@ function loadConfig(configPath = path.join(process.cwd(), 'config.yaml')) {
 
   const defaults = {
     site: {
-      title: 'DocForge',
+      title: 'Archivox',
       description: '',
       logo: '',
       favicon: ''

@@ -1,5 +1,5 @@
 site:
-  title: "DocForge Docs"
+  title: "Archivox Docs"
   description: "Simple static docs."
 
 navigation:
@@ -8,6 +8,6 @@ navigation:
 footer:
   links:
     - text: "GitHub"
-      url: "https://github.com/yourusername/DocForge"
+      url: "https://github.com/yourusername/Archivox"
     - text: "License"
       url: "/license.html"

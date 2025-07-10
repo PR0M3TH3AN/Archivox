@@ -1,14 +1,14 @@
-# DocForge: Final Specification
+# Archivox: Final Specification
 
-[![Build Status](https://github.com/yourusername/DocForge/actions/workflows/ci.yml/badge.svg)](https://github.com/yourusername/DocForge/actions/workflows/ci.yml)
+[![Build Status](https://github.com/yourusername/Archivox/actions/workflows/ci.yml/badge.svg)](https://github.com/yourusername/Archivox/actions/workflows/ci.yml)
 
 **Version:** 1.0  
 **Date:** July 10, 2025  
-**Overview:** DocForge is a modular, lightweight static site generator (SSG) for building "Read the Docs"-style documentation sites. It prioritizes user simplicity: content is driven entirely by Markdown files in a `content` folder, which automatically determines page structure, titles, and sidebar links. No manual HTML, link creation, or complex setups are needed. The site is mobile-friendly, SEO-optimized, and deployable to Netlify or similar hosts.
+**Overview:** Archivox is a modular, lightweight static site generator (SSG) for building "Read the Docs"-style documentation sites. It prioritizes user simplicity: content is driven entirely by Markdown files in a `content` folder, which automatically determines page structure, titles, and sidebar links. No manual HTML, link creation, or complex setups are needed. The site is mobile-friendly, SEO-optimized, and deployable to Netlify or similar hosts.
 
-Built with Node.js (using libraries like Eleventy for templating, `marked` or `remark` for Markdown parsing, and Vanilla JS for client-side features), DocForge generates static HTML/CSS/JS files. It's extensible via plugins and config, but defaults to a minimal, fast workflow.
+Built with Node.js (using libraries like Eleventy for templating, `marked` or `remark` for Markdown parsing, and Vanilla JS for client-side features), Archivox generates static HTML/CSS/JS files. It's extensible via plugins and config, but defaults to a minimal, fast workflow.
 
-This final spec incorporates core features, enhancements for usability and performance, and explicit user instructions. It's designed to be implemented as an open-source GitHub repo with a CLI starter kit (e.g., `npx create-docforge my-site`).
+This final spec incorporates core features, enhancements for usability and performance, and explicit user instructions. It's designed to be implemented as an open-source GitHub repo with a CLI starter kit (e.g., `npx create-archivox my-site`).
 
 ## Quick Start
 
@@ -79,7 +79,7 @@ npm run build
 ## Folder Structure
 
 ```
-my-docforge-site/
+my-archivox-site/
 ├── content/                  # Markdown-driven content
 │   ├── introduction.md       # Top-level: "Introduction"
 │   ├── getting-started/      # Section: "Getting Started"
@@ -109,7 +109,7 @@ Example:
 
 ```yaml
 site:
-  title: "DocForge Docs"
+  title: "Archivox Docs"
   description: "Simple static docs."
   logo: "/assets/logo.svg"
   favicon: "/assets/favicon.ico"
@@ -127,7 +127,7 @@ footer:
   social:
     - icon: "twitter"
       url: "https://x.com"
-  copyright: "© 2025 DocForge"
+  copyright: "© 2025 Archivox"
 
 theme:
   name: "minimal"
@@ -158,7 +158,7 @@ plugins:
 
 ## User Instructions: Formatting and Placing Markdown
 
-To make DocForge truly user-friendly, include these instructions in the starter repo's `README.md` (which can render as a self-hosted "Getting Started" page). Emphasize simplicity: "Just write Markdown—no code required."
+To make Archivox truly user-friendly, include these instructions in the starter repo's `README.md` (which can render as a self-hosted "Getting Started" page). Emphasize simplicity: "Just write Markdown—no code required."
 
 ### Placing Files and Folders
 - **Create Sections**: Use folders for top-level sections (e.g., `content/guides/`). Subfolders nest subsections (e.g., `content/guides/basics/`).
@@ -246,7 +246,7 @@ To make DocForge truly user-friendly, include these instructions in the starter 
 ## Creating Custom Plugins
 
 Plugins are plain Node.js modules placed in the folder defined by `pluginsDir`.
-Each module can export hook functions which DocForge calls during the build:
+Each module can export hook functions which Archivox calls during the build:
 
 ```js
 module.exports = {
