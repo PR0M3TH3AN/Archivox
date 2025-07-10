@@ -142,8 +142,10 @@ async function generate({ contentDir = 'content', outputDir = '_site', configPat
       const firstHeading = tokens.find(t => t.type === 'heading');
       const title = parsed.data.title || (firstHeading ? firstHeading.text : path.basename(rel, '.md'));
       const headings = tokens.filter(t => t.type === 'heading').map(t => t.text).join(' ');
+      const htmlBody = require('marked').parse(parsed.content || '');
+      const bodyText = htmlBody.replace(/<[^>]+>/g, ' ');
       pages.push({ file: rel, data: { ...parsed.data, title } });
-      searchDocs.push({ id: rel.replace(/\.md$/, '.html'), url: '/' + rel.replace(/\.md$/, '.html'), title, headings });
+      searchDocs.push({ id: rel.replace(/\.md$/, '.html'), url: '/' + rel.replace(/\.md$/, '.html'), title, headings, body: bodyText });
     } else {
       assets.push(rel);
     }
@@ -158,6 +160,7 @@ async function generate({ contentDir = 'content', outputDir = '_site', configPat
     this.ref('id');
     this.field('title');
     this.field('headings');
+    this.field('body');
     searchDocs.forEach(d => this.add(d));
   });
   await fs.promises.writeFile(
