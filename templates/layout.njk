@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="{{ config.theme.darkMode ? 'dark' : 'light' }}">
+<html lang="en" data-theme="{% if config.theme.darkMode %}dark{% else %}light{% endif %}">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>{{ title or config.site.title }}</title>
+  <title>{{ title | default(config.site.title) }}</title>
   <link rel="stylesheet" href="/assets/theme.css" />
 </head>
 <body>

@@ -2,9 +2,9 @@
 const fs = require('fs');
 const path = require('path');
 const matter = require('gray-matter');
-const Eleventy = require('@11ty/eleventy');
 const lunr = require('lunr');
-const { lexer } = require('marked');
+const marked = require('marked');
+const { lexer } = marked;
 const loadConfig = require('../config/loadConfig');
 const loadPlugins = require('../config/loadPlugins');
 
@@ -118,35 +118,26 @@ async function generate({ contentDir = 'content', outputDir = '_site', configPat
     JSON.stringify({ index: searchIndex.toJSON(), docs: searchDocs }, null, 2)
   );
 
-  const elev = new Eleventy(contentDir, outputDir);
-  elev.setConfig({
-    dir: {
-      input: contentDir,
-      output: outputDir,
-      includes: path.relative(contentDir, 'templates')
-    },
-    templateFormats: ['md', 'njk'],
-    markdownTemplateEngine: 'njk',
-    htmlTemplateEngine: 'njk',
-    dataTemplateEngine: 'njk'
-  });
-  elev.configFunction = function(eleventyConfig) {
-    eleventyConfig.addGlobalData('navigation', nav);
-    eleventyConfig.addGlobalData('config', config);
-    eleventyConfig.addGlobalData('layout', 'layout.njk');
-    eleventyConfig.addPassthroughCopy({ 'assets': 'assets' });
-  };
-  await elev.write();
+  const nunjucks = require('nunjucks');
+  const env = new nunjucks.Environment(
+    new nunjucks.FileSystemLoader('templates')
+  );
+  env.addGlobal('navigation', nav);
+  env.addGlobal('config', config);
 
   for (const page of pages) {
     const outPath = path.join(outputDir, page.file.replace(/\.md$/, '.html'));
-    if (fs.existsSync(outPath)) {
-      let html = await fs.promises.readFile(outPath, 'utf8');
-      const result = await runHook('onPageRendered', { file: page.file, html });
-      if (result && result.html) html = result.html;
-      await fs.promises.writeFile(outPath, html);
-    }
+    await fs.promises.mkdir(path.dirname(outPath), { recursive: true });
+    const srcPath = path.join(contentDir, page.file);
+    const raw = await fs.promises.readFile(srcPath, 'utf8');
+    const { content, data } = matter(raw);
+    const body = require('marked').parse(content);
+    let html = env.render('layout.njk', { title: data.title || page.data.title, content: body });
+    const result = await runHook('onPageRendered', { file: page.file, html });
+    if (result && result.html) html = result.html;
+    await fs.promises.writeFile(outPath, html);
   }
+
 
   for (const asset of assets) {
     const srcPath = path.join(contentDir, asset);
