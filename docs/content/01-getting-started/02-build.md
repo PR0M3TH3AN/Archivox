@@ -1,9 +1,9 @@
 # Build the Site
 
-When you're ready to generate the static files, run:
+Run the build script whenever you want to publish new changes:
 
 ```bash
 npm run build
 ```
 
-The output appears in the `_site/` folder.
+The compiled HTML, CSS and JavaScript are placed in the `_site/` directory ready to upload to any static host.

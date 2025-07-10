@@ -1,6 +1,6 @@
 # Writing Plugins
 
-Create JavaScript modules in the `plugins/` directory. Export hook functions such as `onParseMarkdown` or `onPageRendered` to modify the build.
+Place JavaScript files in the `plugins/` directory. Export hook functions such as `onParseMarkdown` or `onPageRendered` to modify the build process. Hooks receive data objects that you can transform before Archivox writes the final files.
 
 Example:
 

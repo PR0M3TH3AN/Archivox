@@ -50,6 +50,6 @@ Upload the contents of `_site/` to any static host. For Netlify you can use the 
 ```
 
 ## Documentation
-See the files under the `docs/` directory for a more complete guide to Archivox features, customization and deployment options.
+See the files under the `docs/` directory for a full guide to Archivox including an integration tutorial for existing projects.
 
 Archivox is released under the MIT License.

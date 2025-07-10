@@ -1,11 +1,11 @@
 # Install Archivox
 
-1. Clone or download this repository.
-2. Run `npm install` to install dependencies.
+1. Clone or download this repository, or run `npx create-archivox my-docs --install` to generate a starter project automatically.
+2. Inside the project directory run `npm install` to fetch dependencies.
 3. Start the local development server:
 
 ```bash
 npm run dev
 ```
 
-The site will be available at `http://localhost:8080`.
+Open `http://localhost:8080` to view your site as you edit files.

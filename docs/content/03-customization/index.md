@@ -1,3 +1,3 @@
 # Customizing Your Site
 
-Site settings live in `config.yaml`. You can change the title, logo, colors, and enable features like analytics or multi-language support.
+Most options live in `config.yaml`. Update the `site` block to set your title, add a logo or tweak colors. You can also enable features such as analytics or multilingual content.
