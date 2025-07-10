@@ -4,7 +4,8 @@
   "description": "DocForge static site generator",
   "scripts": {
     "dev": "eleventy --serve",
-    "build": "node src/generator/index.js"
+    "build": "node src/generator/index.js",
+    "test": "jest"
   },
   "dependencies": {
     "@11ty/eleventy": "^2.0.1",
@@ -12,6 +13,9 @@
     "marked": "^11.1.1",
     "lunr": "^2.3.9",
     "js-yaml": "^4.1.0"
+  },
+  "devDependencies": {
+    "jest": "^29.6.1"
   },
   "license": "MIT",
   "bin": {

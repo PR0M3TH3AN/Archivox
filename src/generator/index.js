@@ -165,4 +165,4 @@ async function generate({ contentDir = 'content', outputDir = '_site', configPat
   }
 }
 
-module.exports = { generate };
+module.exports = { generate, buildNav };
