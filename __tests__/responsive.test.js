@@ -99,3 +99,17 @@ test('sidebar opens on small screens', async () => {
   expect(bodyClass).toBe(true);
   expect(sidebarLeft).toBe('0px');
 });
+
+test('sidebar toggles on large screens', async () => {
+  const page = await browser.newPage();
+  await page.setViewport({ width: 1024, height: 800 });
+  await page.goto(`http://localhost:${port}/`);
+  await page.waitForSelector('#sidebar-toggle');
+  await new Promise(r => setTimeout(r, 300));
+  let sidebarWidth = await page.evaluate(() => getComputedStyle(document.querySelector('.sidebar')).width);
+  expect(sidebarWidth).toBe('240px');
+  await page.click('#sidebar-toggle');
+  await new Promise(r => setTimeout(r, 300));
+  sidebarWidth = await page.evaluate(() => getComputedStyle(document.querySelector('.sidebar')).width);
+  expect(sidebarWidth).toBe('0px');
+});

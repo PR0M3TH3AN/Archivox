@@ -114,3 +114,14 @@ main {
   }
   body.sidebar-open .sidebar { left: 0; }
 }
+
+@media (min-width: 769px) {
+  .sidebar {
+    transition: width 0.2s ease;
+  }
+  body:not(.sidebar-open) .sidebar {
+    width: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+}

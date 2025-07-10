@@ -12,6 +12,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const stored = localStorage.getItem('theme');
   if (stored) setTheme(stored);
 
+  if (window.innerWidth > 768) {
+    document.body.classList.add('sidebar-open');
+  }
+
   sidebarToggle?.addEventListener('click', () => {
     document.body.classList.toggle('sidebar-open');
   });
