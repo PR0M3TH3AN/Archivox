@@ -1,3 +1,10 @@
 <footer class="footer">
+  {% if config.footer.links %}
+    <nav class="footer-links">
+      {% for link in config.footer.links %}
+        <a href="{{ link.url }}">{{ link.text }}</a>
+      {% endfor %}
+    </nav>
+  {% endif %}
   <p>&copy; {{ config.site.title }}</p>
 </footer>
