@@ -66,6 +66,23 @@ body {
 .sidebar ul { list-style: none; padding: 0; margin: 0; }
 .sidebar li { margin: 0.25rem 0; }
 .sidebar a { text-decoration: none; color: var(--text-color); display: block; padding: 0.25rem 0; }
+.sidebar nav { font-size: 0.9rem; }
+.nav-link:hover { text-decoration: underline; }
+.nav-link.active { font-weight: bold; }
+.nav-section summary {
+  list-style: none;
+  cursor: pointer;
+  position: relative;
+}
+.nav-section summary::-webkit-details-marker { display: none; }
+.nav-section summary::before {
+  content: '▸';
+  display: inline-block;
+  margin-right: 0.25rem;
+  transition: transform 0.2s ease;
+}
+.nav-section[open] > summary::before { transform: rotate(90deg); }
+.nav-level { padding-left: 1rem; margin-left: 0.5rem; border-left: 2px solid #ccc; }
 .sidebar ul ul { padding-left: 1rem; margin-left: 0.5rem; border-left: 2px solid #ccc; }
 main {
   flex: 1;
