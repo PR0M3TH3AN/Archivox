@@ -59,9 +59,10 @@ body {
   background: var(--sidebar-bg);
   padding: 1rem;
 }
-.sidebar ul { list-style: none; padding: 0; }
-.sidebar ul ul { padding-left: 1rem; }
-.sidebar a { text-decoration: none; color: var(--text-color); }
+.sidebar ul { list-style: none; padding: 0; margin: 0; }
+.sidebar li { margin: 0.25rem 0; }
+.sidebar a { text-decoration: none; color: var(--text-color); display: block; padding: 0.25rem 0; }
+.sidebar ul ul { padding-left: 1rem; margin-left: 0.5rem; border-left: 2px solid #ccc; }
 main {
   flex: 1;
   padding: 1rem;
@@ -74,7 +75,7 @@ main {
     top: 0;
     height: 100%;
     overflow-y: auto;
-    transition: left 0.3s ease;
+    transition: none;
     z-index: 1000;
   }
   body.sidebar-open .sidebar { left: 0; }
