@@ -154,6 +154,14 @@ async function generate({ contentDir = 'content', outputDir = '_site', configPat
     }
     await fs.promises.copyFile(srcPath, destPath);
   }
+
+  // Copy project level assets folder into output
+  const projectAssets = path.resolve(__dirname, '..', '..', 'assets');
+  if (fs.existsSync(projectAssets)) {
+    const dest = path.join(outputDir, 'assets');
+    await fs.promises.mkdir(dest, { recursive: true });
+    await fs.promises.cp(projectAssets, dest, { recursive: true });
+  }
 }
 
 module.exports = { generate, buildNav };
