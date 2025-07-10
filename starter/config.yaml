@@ -1,0 +1,6 @@
+site:
+  title: "DocForge Docs"
+  description: "Simple static docs."
+
+navigation:
+  search: true
