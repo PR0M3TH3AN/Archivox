@@ -229,7 +229,7 @@ To make DocForge truly user-friendly, include these instructions in the starter 
   - `netlify.toml`:
     ```toml
     [build]
-      command = "npm run build"
+      command = "CI= npm run build"  # Avoid CI treating warnings as errors
       publish = "_site"
     ```
   - Connect the repo to Netlify by selecting **New site from Git** in your Netlify dashboard and picking this repository. Netlify will read `netlify.toml` so no extra setup is required. Once linked, pushes to `main` automatically build and deploy the site and pull requests get preview URLs.
