@@ -3,6 +3,8 @@ const fs = require('fs');
 const path = require('path');
 const matter = require('gray-matter');
 const Eleventy = require('@11ty/eleventy');
+const lunr = require('lunr');
+const { lexer } = require('marked');
 const loadConfig = require('../config/loadConfig');
 
 async function readDirRecursive(dir) {
@@ -61,6 +63,7 @@ async function generate({ contentDir = 'content', outputDir = '_site', configPat
   const files = await readDirRecursive(contentDir);
   const pages = [];
   const assets = [];
+  const searchDocs = [];
 
   for (const file of files) {
     const rel = path.relative(contentDir, file);
@@ -75,7 +78,11 @@ async function generate({ contentDir = 'content', outputDir = '_site', configPat
       }
       const raw = await fs.promises.readFile(file, 'utf8');
       const parsed = matter(raw);
-      pages.push({ file: rel, data: { ...parsed.data, title: parsed.data.title || path.basename(rel, '.md') } });
+      const title = parsed.data.title || path.basename(rel, '.md');
+      const tokens = lexer(parsed.content || '');
+      const headings = tokens.filter(t => t.type === 'heading').map(t => t.text).join(' ');
+      pages.push({ file: rel, data: { ...parsed.data, title } });
+      searchDocs.push({ id: rel.replace(/\.md$/, '.html'), url: '/' + rel.replace(/\.md$/, '.html'), title, headings });
     } else {
       assets.push(rel);
     }
@@ -85,6 +92,17 @@ async function generate({ contentDir = 'content', outputDir = '_site', configPat
   await fs.promises.mkdir(outputDir, { recursive: true });
   await fs.promises.writeFile(path.join(outputDir, 'navigation.json'), JSON.stringify(nav, null, 2));
   await fs.promises.writeFile(path.join(outputDir, 'config.json'), JSON.stringify(config, null, 2));
+
+  const searchIndex = lunr(function() {
+    this.ref('id');
+    this.field('title');
+    this.field('headings');
+    searchDocs.forEach(d => this.add(d));
+  });
+  await fs.promises.writeFile(
+    path.join(outputDir, 'search-index.json'),
+    JSON.stringify({ index: searchIndex.toJSON(), docs: searchDocs }, null, 2)
+  );
 
   const elev = new Eleventy(contentDir, outputDir);
   elev.setConfig({
