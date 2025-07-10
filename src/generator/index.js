@@ -166,3 +166,10 @@ async function generate({ contentDir = 'content', outputDir = '_site', configPat
 }
 
 module.exports = { generate, buildNav };
+
+if (require.main === module) {
+  generate().catch(err => {
+    console.error(err);
+    process.exit(1);
+  });
+}
