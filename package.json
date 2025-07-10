@@ -13,5 +13,8 @@
     "lunr": "^2.3.9",
     "js-yaml": "^4.1.0"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "bin": {
+    "create-docforge": "./bin/create-docforge.js"
+  }
 }
