@@ -1,0 +1,9 @@
+<aside class="sidebar" id="sidebar">
+  <nav>
+    <ul>
+    {% for item in navigation %}
+      <li><a href="{{ item.path }}">{{ item.page.title }}</a></li>
+    {% endfor %}
+    </ul>
+  </nav>
+</aside>
