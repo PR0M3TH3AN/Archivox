@@ -1,9 +1,18 @@
+{% macro renderNav(items) %}
+  <ul>
+  {% for item in items %}
+    <li>
+      <a href="{{ item.path }}">{{ item.page.title }}</a>
+      {% if item.children and item.children.length %}
+        {{ renderNav(item.children) }}
+      {% endif %}
+    </li>
+  {% endfor %}
+  </ul>
+{% endmacro %}
+
 <aside class="sidebar" id="sidebar">
   <nav>
-    <ul>
-    {% for item in navigation %}
-      <li><a href="{{ item.path }}">{{ item.page.title }}</a></li>
-    {% endfor %}
-    </ul>
+    {{ renderNav(navigation) }}
   </nav>
 </aside>
